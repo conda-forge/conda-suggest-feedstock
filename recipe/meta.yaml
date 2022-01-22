@@ -11,8 +11,13 @@ source:
 
 build:
   noarch: python
-  number: 0
-  script: "{{ PYTHON }} -m pip install . -vv"
+  number: 1
+  script:
+    - "{{ PYTHON }} -m pip install . -vv"
+    - mkdir -p {{ PREFIX }}/etc/conda/activate.d
+    - mkdir -p {{ PREFIX }}/etc/conda/deactivate.d
+    - cp {{ RECIPE_DIR }}/activate.sh {{ PREFIX }}/etc/conda/activate.d/activate-conda-suggest.sh
+    - cp {{ RECIPE_DIR }}/deactivate.sh {{ PREFIX }}/etc/conda/deactivate.d/deactivate-conda-suggest.sh
   entry_points:
     - conda-suggest = conda_suggest.main:main
 
@@ -36,9 +41,10 @@ about:
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE
-  summary: 'Suggests packages to install to obtain command line utilities '
+  summary: 'Suggests packages to install to obtain command line utilities'
   dev_url: https://github.com/conda-incubator/conda-suggest
 
 extra:
   recipe-maintainers:
     - scopatz
+    - isuruf
