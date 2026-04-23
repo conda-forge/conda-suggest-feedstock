@@ -11,21 +11,23 @@ source:
 
 build:
   noarch: python
-  number: 0
+  number: 1
   script: "{{ PYTHON }} -m pip install . -vv"
   entry_points:
     - conda-suggest = conda_suggest.main:main
 
 requirements:
   host:
-    - python
+    - python {{ python_min }}
     - pip
   run:
-    - python
+    - python >={{ python_min }}
     - tqdm
     - conda-suggest-conda-forge
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - conda_suggest
   commands:
